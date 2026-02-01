@@ -347,87 +347,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &916537269 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2885484528298329137, guid: 64acb8537da084de194fa8b460107866, type: 3}
-  m_PrefabInstance: {fileID: 8135943213850776654}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &916537273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 916537269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: 
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!114 &916537274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 916537269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0f8b7300956d45b2b3921c5d9084e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  clickAction:
-    m_Name: Click
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: f398bbe5-5793-4f2b-8e98-160f99b2bd0f
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: e4aa13f6-a2a3-47a5-b836-ff37a90170b9
-      m_Path: <Mouse>/leftButton
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Click
-      m_Flags: 0
-    m_Flags: 0
-  moveAction:
-    m_Name: Move
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 2847d2a2-2465-409f-be77-87f5243d7fde
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: b4804b5a-5993-4200-81f6-2bc4f7a6813c
-      m_Path: <Mouse>/position
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Move
-      m_Flags: 0
-    m_Flags: 0
 --- !u!1001 &8135943213850776654
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -439,18 +358,6 @@ PrefabInstance:
     - target: {fileID: 2885484528298329137, guid: 64acb8537da084de194fa8b460107866, type: 3}
       propertyPath: m_Name
       value: Triangle
-      objectReference: {fileID: 0}
-    - target: {fileID: 5741895016095318919, guid: 64acb8537da084de194fa8b460107866, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 3.9942
-      objectReference: {fileID: 0}
-    - target: {fileID: 5741895016095318919, guid: 64acb8537da084de194fa8b460107866, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 3.9942
-      objectReference: {fileID: 0}
-    - target: {fileID: 5741895016095318919, guid: 64acb8537da084de194fa8b460107866, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 3.9942
       objectReference: {fileID: 0}
     - target: {fileID: 5741895016095318919, guid: 64acb8537da084de194fa8b460107866, type: 3}
       propertyPath: m_LocalPosition.x
@@ -495,13 +402,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2885484528298329137, guid: 64acb8537da084de194fa8b460107866, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 916537274}
-    - targetCorrespondingSourceObject: {fileID: 2885484528298329137, guid: 64acb8537da084de194fa8b460107866, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 916537273}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64acb8537da084de194fa8b460107866, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
