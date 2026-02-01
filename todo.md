@@ -1,6 +1,6 @@
 # TODO:
-- Add a stencil with a triangle.
 - Make a game scene with stencils on the bottom.
+- Allow the player to delete a stencil by right clicking on the dropped shape.
 - Add a stencil with a rectangle.
 - Add a stencil with a square and a circle.
 - Allow the player to select a stencil.
@@ -11,3 +11,5 @@
 - Make a scene with a view of some image that you're trying to match.
 
 # DONE:
+- Add a stencil with a triangle.
+- Stencils should be a square with a colored shape within which can be placed.
