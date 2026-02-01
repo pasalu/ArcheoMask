@@ -9,12 +9,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2038279573671938989, guid: 1e1db6ec05aac4f779c549d00256f5c2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2038279573671938989, guid: 1e1db6ec05aac4f779c549d00256f5c2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2038279573671938989, guid: 1e1db6ec05aac4f779c549d00256f5c2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.3021
       objectReference: {fileID: 0}
     - target: {fileID: 2038279573671938989, guid: 1e1db6ec05aac4f779c549d00256f5c2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.22718
       objectReference: {fileID: 0}
     - target: {fileID: 2038279573671938989, guid: 1e1db6ec05aac4f779c549d00256f5c2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -48,6 +56,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5255425081375927073, guid: 1e1db6ec05aac4f779c549d00256f5c2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7788465682348136480, guid: 1e1db6ec05aac4f779c549d00256f5c2, type: 3}
       propertyPath: m_Name
       value: TriangleStencil
@@ -73,6 +85,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2454039033570527245}
     m_Modifications:
+    - target: {fileID: 1291608739722330958, guid: 64acb8537da084de194fa8b460107866, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2885484528298329137, guid: 64acb8537da084de194fa8b460107866, type: 3}
       propertyPath: m_Name
       value: Triangle
@@ -129,7 +145,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7320148606965831446, guid: 64acb8537da084de194fa8b460107866, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
