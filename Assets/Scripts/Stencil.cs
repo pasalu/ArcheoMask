@@ -3,9 +3,6 @@ using UnityEngine.InputSystem;
 
 public class Stencil : MonoBehaviour
 {
-    public InputAction clickAction;
-    public InputAction moveAction;
-
     private InputSystem_Actions input;
 
     void Awake()
@@ -25,7 +22,7 @@ public class Stencil : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (input.Player.Attack.WasPressedThisFrame())
+        if (input.Player.Attack.IsPressed())
         {
             Move();
         }
