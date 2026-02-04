@@ -22,11 +22,24 @@ public class Stencil : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (input.Player.Attack.IsPressed())
+        if (input.Player.Attack.WasPressedThisFrame() || input.Player.Attack.IsPressed())
         {
-            Move();
+            var screenPosition = input.UI.Point.ReadValue<Vector2>();
+            var worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+
+            Collider2D hit = Physics2D.OverlapPoint(worldPosition);
+
+            print("Was Pressed This Frame: " + input.Player.Attack.WasPressedThisFrame());
+            if (hit != null && hit.transform.IsChildOf(transform) && input.Player.Attack.WasPressedThisFrame())
+            {
+                Debug.Log("Hit stencil child: " + hit.transform.name);
+                ShapeClicked();
+            }
+            else
+            {
+                Move();
+            }
         }
-        
     }
 
     // Move the stencil like it's on a grid.
@@ -42,5 +55,14 @@ public class Stencil : MonoBehaviour
             worldPosition.y,
             GetComponent<Transform>().position.z
         );
+    }
+
+    public void ShapeClicked()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            var child = transform.GetChild(i);
+            print("Child " + i + ": " + child.name);
+        }
     }
 }
