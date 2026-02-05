@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class Stencil : MonoBehaviour
 {
     private InputSystem_Actions input;
+    private bool clickedOnShape = false;
 
     void Awake()
     {
@@ -22,23 +23,34 @@ public class Stencil : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (input.Player.Attack.WasPressedThisFrame() || input.Player.Attack.IsPressed())
+        if (input.Player.Attack.WasPressedThisFrame())
         {
             var screenPosition = input.UI.Point.ReadValue<Vector2>();
             var worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
 
             Collider2D hit = Physics2D.OverlapPoint(worldPosition);
 
-            print("Was Pressed This Frame: " + input.Player.Attack.WasPressedThisFrame());
-            if (hit != null && hit.transform.IsChildOf(transform) && input.Player.Attack.WasPressedThisFrame())
+            if (hit != null && hit.transform.IsChildOf(transform))
             {
                 Debug.Log("Hit stencil child: " + hit.transform.name);
                 ShapeClicked();
+                clickedOnShape = true;
             }
             else
             {
                 Move();
+                clickedOnShape = false;
             }
+        }
+
+        if (input.Player.Attack.IsPressed() && !clickedOnShape)
+        {
+            Move();
+        }
+        
+        if (input.Player.Attack.WasReleasedThisFrame())
+        {
+            clickedOnShape = false;
         }
     }
 
