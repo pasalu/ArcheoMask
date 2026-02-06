@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class Stencil : MonoBehaviour
 {
+    private GameObject shapes;
     private InputSystem_Actions input;
     private bool clickedOnShape = false;
     private bool clickedOnStencil = false;
@@ -15,10 +16,9 @@ public class Stencil : MonoBehaviour
         input.UI.Enable();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        shapes = GameObject.Find("Shapes");
     }
 
     // Update is called once per frame
@@ -81,7 +81,7 @@ public class Stencil : MonoBehaviour
         {
             var child = transform.GetChild(i);
             print("Child " + i + ": " + child.name);
-            Instantiate(child.gameObject, worldPosition, Quaternion.identity);
+            Instantiate(child.gameObject, worldPosition, Quaternion.identity, shapes.transform);
         }
     }
 }
