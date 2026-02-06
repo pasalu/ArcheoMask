@@ -372,8 +372,8 @@ Transform:
   m_GameObject: {fileID: 586554237}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.457103, y: 2.5644016, z: 0}
-  m_LocalScale: {x: 1.7766, y: 1.7766, z: 1.7766}
+  m_LocalPosition: {x: 6.6243, y: 3.0272, z: 0}
+  m_LocalScale: {x: 1.8034266, y: 1.7920564, z: 1.7766}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -393,6 +393,15 @@ MonoBehaviour:
   yellowFilterImage: {fileID: 357341774}
   maskSprite: {fileID: -8885516431407505922, guid: 880642ac63ce1467ea4dd0a783591784, type: 3}
   exitButtonSprite: {fileID: -1282046703899895754, guid: 7eaaa32bf4ca3418bb3d2e5fdcd2eba0, type: 3}
+  maskAsleepSprite: {fileID: -5622322904571887173, guid: a2087c07ed6cd49b8b6b388bf9893160, type: 3}
+  cooldownDuration: 20
+  wakeTransitionStart: 17
+  wakeTransitionDuration: 3
+  particleSpawnRadius: 2
+  particleSpeed: 1
+  particleColor: {r: 1, g: 1, b: 0.3, a: 1}
+  particleSize: 0.2
+  maxParticlesPerSecond: 60
   yellowFilterColor: {r: 1, g: 0.9, b: 0.3, a: 0.3}
   clickableLayer:
     serializedVersion: 2
@@ -851,8 +860,8 @@ Transform:
   m_GameObject: {fileID: 1202652702}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.646149, y: -2.4642277, z: 0}
-  m_LocalScale: {x: 1.7766, y: 1.7766, z: 1.7766}
+  m_LocalPosition: {x: 6.6118, y: -2.0011, z: 0}
+  m_LocalScale: {x: 3.4153583, y: 2.3795536, z: 1.7766}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
