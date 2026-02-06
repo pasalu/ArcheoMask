@@ -31,18 +31,14 @@ public class Stencil : MonoBehaviour
 
             Collider2D hit = Physics2D.OverlapPoint(worldPosition);
 
-            print("Hit: " + (hit != null ? hit.transform.name : "None") + " at " + worldPosition);
-
             if (hit != null && hit.transform.IsChildOf(transform) && hit.transform != transform)
             {
-                Debug.Log("Hit stencil child: " + hit.transform.name);
                 ShapeClicked();
                 clickedOnShape = true;
                 clickedOnStencil = false;
             }
             else if (hit != null && hit.transform == transform)
             {
-                Debug.Log("Hit stencil: " + hit.transform.name);
                 clickedOnStencil = true;
                 clickedOnShape = false;
             }
