@@ -33,7 +33,7 @@ public class Stencil : MonoBehaviour
 
             if (hit != null && hit.transform.IsChildOf(transform) && hit.transform != transform)
             {
-                ShapeClicked();
+                ShapeClicked(worldPosition);
                 clickedOnShape = true;
                 clickedOnStencil = false;
             }
@@ -75,12 +75,13 @@ public class Stencil : MonoBehaviour
         );
     }
 
-    public void ShapeClicked()
+    public void ShapeClicked(Vector2 worldPosition)
     {
         for (int i = 0; i < transform.childCount; i++)
         {
             var child = transform.GetChild(i);
             print("Child " + i + ": " + child.name);
+            Instantiate(child.gameObject, worldPosition, Quaternion.identity);
         }
     }
 }
