@@ -5,6 +5,7 @@ public class Stencil : MonoBehaviour
 {
     private InputSystem_Actions input;
     private bool clickedOnShape = false;
+    private bool clickedOnStencil = false;
 
     void Awake()
     {
@@ -30,20 +31,28 @@ public class Stencil : MonoBehaviour
 
             Collider2D hit = Physics2D.OverlapPoint(worldPosition);
 
-            if (hit != null && hit.transform.IsChildOf(transform))
+            print("Hit: " + (hit != null ? hit.transform.name : "None") + " at " + worldPosition);
+
+            if (hit != null && hit.transform.IsChildOf(transform) && hit.transform != transform)
             {
                 Debug.Log("Hit stencil child: " + hit.transform.name);
                 ShapeClicked();
                 clickedOnShape = true;
+                clickedOnStencil = false;
+            }
+            else if (hit != null && hit.transform == transform)
+            {
+                Debug.Log("Hit stencil: " + hit.transform.name);
+                clickedOnStencil = true;
+                clickedOnShape = false;
             }
             else
             {
-                Move();
                 clickedOnShape = false;
             }
         }
 
-        if (input.Player.Attack.IsPressed() && !clickedOnShape)
+        if (input.Player.Attack.IsPressed() && clickedOnStencil && !clickedOnShape)
         {
             Move();
         }
@@ -51,6 +60,7 @@ public class Stencil : MonoBehaviour
         if (input.Player.Attack.WasReleasedThisFrame())
         {
             clickedOnShape = false;
+            clickedOnStencil = false;
         }
     }
 
