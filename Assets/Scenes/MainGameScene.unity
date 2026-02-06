@@ -393,6 +393,15 @@ MonoBehaviour:
   yellowFilterImage: {fileID: 357341774}
   maskSprite: {fileID: -8885516431407505922, guid: 880642ac63ce1467ea4dd0a783591784, type: 3}
   exitButtonSprite: {fileID: -1282046703899895754, guid: 7eaaa32bf4ca3418bb3d2e5fdcd2eba0, type: 3}
+  maskAsleepSprite: {fileID: -5622322904571887173, guid: a2087c07ed6cd49b8b6b388bf9893160, type: 3}
+  cooldownDuration: 20
+  wakeTransitionStart: 17
+  wakeTransitionDuration: 3
+  particleSpawnRadius: 2
+  particleSpeed: 1
+  particleColor: {r: 1, g: 1, b: 0.3, a: 1}
+  particleSize: 0.2
+  maxParticlesPerSecond: 60
   yellowFilterColor: {r: 1, g: 0.9, b: 0.3, a: 0.3}
   clickableLayer:
     serializedVersion: 2
