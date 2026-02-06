@@ -4,75 +4,76 @@ using UnityEngine.UI;
 using System.Collections;
 
 /// <summary>
-/// Handles smooth scene transitions with fade in/out effects
+/// Handles smooth scene transitions with fade to black effects
 /// </summary>
 public class SceneTransition : MonoBehaviour
 {
     [Header("Transition Settings")]
     [SerializeField] private float fadeOutDuration = 0.5f;
     [SerializeField] private float fadeInDuration = 0.5f;
-    [SerializeField] private Color fadeColor = Color.black;
 
-    [Header("UI References")]
-    [SerializeField] private Image fadeImage;
-    [SerializeField] private Canvas fadeCanvas;
-
+    private Canvas fadeCanvas;
+    private Image fadeImage;
     private bool isTransitioning = false;
+    private static SceneTransition instance;
 
     private void Awake()
     {
-        // Create fade canvas if not assigned
-        if (fadeCanvas == null)
+        Debug.Log("SceneTransition Awake called");
+
+        // Singleton pattern
+        if (instance != null && instance != this)
         {
-            CreateFadeCanvas();
+            Debug.Log("Destroying duplicate SceneTransition");
+            Destroy(gameObject);
+            return;
         }
 
-        // Ensure this persists between scenes (optional)
-        // Uncomment if you want the transition to persist
-        // DontDestroyOnLoad(gameObject);
+        instance = this;
+        DontDestroyOnLoad(gameObject);
 
-        // Start with transparent fade image
-        if (fadeImage != null)
-        {
-            Color color = fadeImage.color;
-            color.a = 0f;
-            fadeImage.color = color;
-        }
+        // Always create the fade canvas immediately
+        CreateFadeCanvas();
+
+        Debug.Log($"SceneTransition initialized. FadeImage null? {fadeImage == null}");
     }
 
     /// <summary>
-    /// Create the fade canvas and image
+    /// Create the fade canvas with a black overlay image
     /// </summary>
     private void CreateFadeCanvas()
     {
+        Debug.Log("=== CreateFadeCanvas START ===");
+
         // Create canvas
         GameObject canvasObj = new GameObject("FadeCanvas");
         canvasObj.transform.SetParent(transform, false);
 
         fadeCanvas = canvasObj.AddComponent<Canvas>();
         fadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        fadeCanvas.sortingOrder = 9999; // Very high to be on top of everything
+        fadeCanvas.sortingOrder = 9999;
 
-        CanvasScaler scaler = canvasObj.AddComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920, 1080);
-
+        canvasObj.AddComponent<CanvasScaler>();
         canvasObj.AddComponent<GraphicRaycaster>();
 
-        // Create fade image
+        Debug.Log("Canvas created");
+
+        // Create image
         GameObject imageObj = new GameObject("FadeImage");
         imageObj.transform.SetParent(canvasObj.transform, false);
 
-        RectTransform rectTransform = imageObj.AddComponent<RectTransform>();
-        rectTransform.anchorMin = Vector2.zero;
-        rectTransform.anchorMax = Vector2.one;
-        rectTransform.sizeDelta = Vector2.zero;
-
         fadeImage = imageObj.AddComponent<Image>();
-        fadeImage.color = fadeColor;
-        fadeImage.raycastTarget = true; // Block input during transition
+        fadeImage.color = new Color(0, 0, 0, 0); // Transparent black
+        fadeImage.raycastTarget = false; // Don't block clicks when transparent
 
-        Debug.Log("Fade canvas created");
+        // Make it fullscreen
+        RectTransform rect = fadeImage.GetComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.sizeDelta = Vector2.zero;
+        rect.anchoredPosition = Vector2.zero;
+
+        Debug.Log($"=== CreateFadeCanvas COMPLETE === FadeImage created: {fadeImage != null}, Color: {fadeImage.color}");
     }
 
     /// <summary>
@@ -80,155 +81,102 @@ public class SceneTransition : MonoBehaviour
     /// </summary>
     public void TransitionToScene(string sceneName)
     {
+        Debug.Log($"=== TransitionToScene called: {sceneName} ===");
+
+        if (fadeImage == null)
+        {
+            Debug.LogError("CRITICAL: fadeImage is NULL at start of transition!");
+            CreateFadeCanvas();
+        }
+
         if (!isTransitioning)
         {
             StartCoroutine(TransitionCoroutine(sceneName));
         }
-    }
-
-    /// <summary>
-    /// Transition to a scene by build index
-    /// </summary>
-    public void TransitionToScene(int sceneIndex)
-    {
-        if (!isTransitioning)
+        else
         {
-            StartCoroutine(TransitionCoroutine(sceneIndex));
+            Debug.LogWarning("Already transitioning!");
         }
     }
 
-    /// <summary>
-    /// Coroutine for scene transition
-    /// </summary>
     private IEnumerator TransitionCoroutine(string sceneName)
     {
         isTransitioning = true;
+        Debug.Log(">>> Starting TransitionCoroutine");
 
-        // Fade out
-        yield return StartCoroutine(FadeOut());
+        // Fade out to black
+        Debug.Log(">>> Step 1: Fade out");
+        yield return StartCoroutine(FadeToBlack());
 
         // Load scene
+        Debug.Log($">>> Step 2: Loading scene {sceneName}");
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
-        // Wait for scene to load
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
+        Debug.Log(">>> Step 3: Scene loaded");
 
-        // Fade in
-        yield return StartCoroutine(FadeIn());
+        // Small delay
+        yield return new WaitForSeconds(0.1f);
 
+        // Fade in from black
+        Debug.Log(">>> Step 4: Fade in");
+        yield return StartCoroutine(FadeFromBlack());
+
+        Debug.Log(">>> TransitionCoroutine COMPLETE");
         isTransitioning = false;
     }
 
-    /// <summary>
-    /// Coroutine for scene transition (by index)
-    /// </summary>
-    private IEnumerator TransitionCoroutine(int sceneIndex)
+    private IEnumerator FadeToBlack()
     {
-        isTransitioning = true;
-
-        // Fade out
-        yield return StartCoroutine(FadeOut());
-
-        // Load scene
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
-
-        // Wait for scene to load
-        while (!asyncLoad.isDone)
+        if (fadeImage == null)
         {
-            yield return null;
+            Debug.LogError("FadeToBlack: fadeImage is NULL!");
+            yield break;
         }
 
-        // Fade in
-        yield return StartCoroutine(FadeIn());
+        Debug.Log($"FadeToBlack starting from alpha: {fadeImage.color.a}");
 
-        isTransitioning = false;
-    }
+        float elapsed = 0f;
+        Color color = fadeImage.color;
 
-    /// <summary>
-    /// Fade out to opaque
-    /// </summary>
-    private IEnumerator FadeOut()
-    {
-        if (fadeImage == null) yield break;
-
-        float elapsedTime = 0f;
-        Color startColor = fadeImage.color;
-        Color targetColor = fadeColor;
-        targetColor.a = 1f;
-
-        while (elapsedTime < fadeOutDuration)
+        while (elapsed < fadeOutDuration)
         {
-            elapsedTime += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsedTime / fadeOutDuration);
-
-            Color currentColor = Color.Lerp(startColor, targetColor, t);
-            fadeImage.color = currentColor;
-
-            yield return null;
-        }
-
-        // Ensure fully opaque
-        fadeImage.color = targetColor;
-    }
-
-    /// <summary>
-    /// Fade in to transparent
-    /// </summary>
-    private IEnumerator FadeIn()
-    {
-        if (fadeImage == null) yield break;
-
-        float elapsedTime = 0f;
-        Color startColor = fadeImage.color;
-        Color targetColor = fadeColor;
-        targetColor.a = 0f;
-
-        while (elapsedTime < fadeInDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsedTime / fadeInDuration);
-
-            Color currentColor = Color.Lerp(startColor, targetColor, t);
-            fadeImage.color = currentColor;
-
-            yield return null;
-        }
-
-        // Ensure fully transparent
-        fadeImage.color = targetColor;
-    }
-
-    /// <summary>
-    /// Instant fade to black (useful for cuts)
-    /// </summary>
-    public void FadeToBlackInstant()
-    {
-        if (fadeImage != null)
-        {
-            Color color = fadeColor;
-            color.a = 1f;
+            elapsed += Time.deltaTime;
+            color.a = Mathf.Lerp(0f, 1f, elapsed / fadeOutDuration);
             fadeImage.color = color;
+            yield return null;
         }
+
+        color.a = 1f;
+        fadeImage.color = color;
+        Debug.Log($"FadeToBlack complete. Final alpha: {fadeImage.color.a}");
     }
 
-    /// <summary>
-    /// Instant fade to transparent
-    /// </summary>
-    public void FadeToClearInstant()
+    private IEnumerator FadeFromBlack()
     {
-        if (fadeImage != null)
+        if (fadeImage == null)
         {
-            Color color = fadeColor;
-            color.a = 0f;
-            fadeImage.color = color;
+            Debug.LogError("FadeFromBlack: fadeImage is NULL!");
+            yield break;
         }
-    }
 
-    /// <summary>
-    /// Check if currently transitioning
-    /// </summary>
-    public bool IsTransitioning => isTransitioning;
+        Debug.Log($"FadeFromBlack starting from alpha: {fadeImage.color.a}");
+
+        float elapsed = 0f;
+        Color color = fadeImage.color;
+
+        while (elapsed < fadeInDuration)
+        {
+            elapsed += Time.deltaTime;
+            color.a = Mathf.Lerp(1f, 0f, elapsed / fadeInDuration);
+            fadeImage.color = color;
+            yield return null;
+        }
+
+        color.a = 0f;
+        fadeImage.color = color;
+        Debug.Log($"FadeFromBlack complete. Final alpha: {fadeImage.color.a}");
+    }
 }

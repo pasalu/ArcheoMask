@@ -27,8 +27,14 @@ public class MainMenuManager : MonoBehaviour
 
     private void Awake()
     {
-        // Get scene transition component
+        // Get or create scene transition component
         sceneTransition = FindObjectOfType<SceneTransition>();
+        if (sceneTransition == null)
+        {
+            GameObject transitionObj = new GameObject("SceneTransition");
+            sceneTransition = transitionObj.AddComponent<SceneTransition>();
+            Debug.Log("SceneTransition created automatically");
+        }
 
         // Set up button listeners
         SetupButtons();
@@ -153,12 +159,16 @@ public class MainMenuManager : MonoBehaviour
     /// </summary>
     private void LoadMainGameScene()
     {
+        Debug.Log($"LoadMainGameScene called - Scene name: {mainGameSceneName}");
+
         if (sceneTransition != null)
         {
+            Debug.Log("SceneTransition found - starting transition");
             sceneTransition.TransitionToScene(mainGameSceneName);
         }
         else
         {
+            Debug.LogWarning("SceneTransition is NULL - using direct load");
             // Fallback: direct load
             SceneManager.LoadScene(mainGameSceneName);
         }
