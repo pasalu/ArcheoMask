@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class Stencil : MonoBehaviour
 {
+    [SerializeField] private Collider2D tabletBounds;
+
     private GameObject shapes;
     private InputSystem_Actions input;
     private bool clickedOnShape = false;
@@ -14,6 +16,8 @@ public class Stencil : MonoBehaviour
         input = new InputSystem_Actions();
         input.Player.Enable();
         input.UI.Enable();
+
+        tabletBounds = GameObject.Find("TabletBounds").GetComponent<Collider2D>();
     }
 
     void Start()
@@ -67,12 +71,22 @@ public class Stencil : MonoBehaviour
         var screenPosition = input.UI.Point.ReadValue<Vector2>();
         var worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
 
-        print("Move: " + input.UI.Point.ReadValue<Vector2>());
-        GetComponent<Transform>().position = new Vector3(
-            worldPosition.x,
-            worldPosition.y,
-            GetComponent<Transform>().position.z
-        );
+        // Get the position of the stencil, accounting for the width and height of the stencil.
+        // var stencilPosition = worldPosition + GetComponent<BoxCollider2D>().bounds.extents;
+        var stencilPosition = worldPosition;
+
+        if (tabletBounds != null)
+        {
+            Bounds bounds = tabletBounds.bounds;
+            Bounds stencilBounds = GetComponent<SpriteRenderer>().bounds;
+            float halfWidth = stencilBounds.extents.x;
+            float halfHeight = stencilBounds.extents.y;
+
+            var x = Mathf.Clamp(stencilPosition.x, bounds.min.x + halfWidth, bounds.max.x - halfWidth);
+            var y = Mathf.Clamp(stencilPosition.y, bounds.min.y + halfHeight, bounds.max.y - halfHeight);
+
+            transform.position = new Vector3(x, y, transform.position.z);
+        }
     }
 
     public void ShapeClicked(Vector2 worldPosition)
