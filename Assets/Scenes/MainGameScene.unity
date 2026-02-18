@@ -478,11 +478,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2658048765043299374, guid: 9ae70ef7a15c448fda1fc6cb57debd80, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.33778
+      value: 5.9377804
       objectReference: {fileID: 0}
     - target: {fileID: 2658048765043299374, guid: 9ae70ef7a15c448fda1fc6cb57debd80, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.34071
+      value: -2.44071
       objectReference: {fileID: 0}
     - target: {fileID: 2658048765043299374, guid: 9ae70ef7a15c448fda1fc6cb57debd80, type: 3}
       propertyPath: m_LocalPosition.z
@@ -669,7 +669,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 6.59, y: 9.43}
+  m_Size: {x: 6, y: 9}
   m_EdgeRadius: 0
 --- !u!4 &948486654
 Transform:

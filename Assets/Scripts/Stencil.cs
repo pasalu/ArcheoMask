@@ -64,29 +64,30 @@ public class Stencil : MonoBehaviour
         }
     }
 
-    // Move the stencil like it's on a grid.
-    private void Move() 
+    private void Move()
     {
-        // Switch from (0,0) bottom-left to (0,0) center
-        var screenPosition = input.UI.Point.ReadValue<Vector2>();
-        var worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+        var mouseScreenPosition = input.UI.Point.ReadValue<Vector2>();
+        var mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
 
-        // Get the position of the stencil, accounting for the width and height of the stencil.
-        // var stencilPosition = worldPosition + GetComponent<BoxCollider2D>().bounds.extents;
-        var stencilPosition = worldPosition;
+        if (tabletBounds == null) return;
 
-        if (tabletBounds != null)
-        {
-            Bounds bounds = tabletBounds.bounds;
-            Bounds stencilBounds = GetComponent<SpriteRenderer>().bounds;
-            float halfWidth = stencilBounds.extents.x;
-            float halfHeight = stencilBounds.extents.y;
+        Bounds bounds = tabletBounds.bounds;
+        Bounds stencilBounds = GetComponent<SpriteRenderer>().bounds;
+        float halfWidth = stencilBounds.extents.x;
+        float halfHeight = stencilBounds.extents.y;
 
-            var x = Mathf.Clamp(stencilPosition.x, bounds.min.x + halfWidth, bounds.max.x - halfWidth);
-            var y = Mathf.Clamp(stencilPosition.y, bounds.min.y + halfHeight, bounds.max.y - halfHeight);
+        // Snap to grid relative to tablet corner
+        float gridSize = 1f;
+        float originX = bounds.min.x + halfWidth;
+        float originY = bounds.min.y + halfHeight;
+        float x = originX + Mathf.Round((mouseWorldPosition.x - originX) / gridSize) * gridSize;
+        float y = originY + Mathf.Round((mouseWorldPosition.y - originY) / gridSize) * gridSize;
 
-            transform.position = new Vector3(x, y, transform.position.z);
-        }
+        // Clamp to tablet bounds
+        x = Mathf.Clamp(x, bounds.min.x + halfWidth, bounds.max.x - halfWidth);
+        y = Mathf.Clamp(y, bounds.min.y + halfHeight, bounds.max.y - halfHeight);
+
+        transform.position = new Vector3(x, y, transform.position.z);
     }
 
     public void ShapeClicked(Vector2 worldPosition)

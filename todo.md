@@ -1,6 +1,6 @@
 # TODO:
-- Restrict the location stencils can be moved to.
 - Allow the player to delete a stencil by right clicking on the dropped shape.
+- Allow double clicking on the stencil to place a shape down.
 - Make a game scene with stencils on the bottom.
 - Add a stencil with a square and a circle.
 - Allow the player to select a stencil.
@@ -15,3 +15,4 @@
 - Stencils should be a square with a colored shape within which can be placed.
 - Allow the player to move the stencil.
 - Clicking the hole in the stencil places the shape down.
+- Restrict the location stencils can be moved to.
